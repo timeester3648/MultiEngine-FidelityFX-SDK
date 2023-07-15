@@ -361,3 +361,9 @@ MigrationBackup/
 # Folders created by the media delivery tool
 media/
 media-cache/
+
+# exclude project files
+**.sln
+**.vcxproj
+**.vcxproj.user
+**.vcxproj.filters
