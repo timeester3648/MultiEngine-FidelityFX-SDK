@@ -1,8 +1,9 @@
 include "../../premake/common_premake_defines.lua"
 include "premake_shader_util.lua"
 
-local FIDELITYFX_SDK_SC = "%{wks.location}/dependencies/FidelityFX-SDK/sdk/tools/binary_store/FidelityFX_SC.exe"
-local SHADER_BASE_OUTPUT_DIR = "%{wks.location}/dependencies/FidelityFX-SDK/sdk/src/backends/shared/blob_accessors/"
+local SHADER_BASE_INPUT_DIR = "%{wks.location}dependencies/FidelityFX-SDK/sdk/src/backends/vk/"
+local FIDELITYFX_SDK_SC = "%{wks.location}dependencies/FidelityFX-SDK/sdk/tools/binary_store/FidelityFX_SC.exe"
+local SHADER_BASE_OUTPUT_DIR = "%{wks.location}dependencies/FidelityFX-SDK/sdk/src/backends/shared/blob_accessors/shaders"
 
 project "FidelityFX-SDK"
 	kind "StaticLib"
@@ -25,7 +26,8 @@ project "FidelityFX-SDK"
 
 	includedirs {
 		"./sdk/src/shared",
-		SHADER_BASE_OUTPUT_DIR .. "**",
+		"./sdk/src/components",
+		SHADER_BASE_OUTPUT_DIR,
 
 		"%{IncludeDir.fidelityfx_sdk}"
 	}
@@ -33,32 +35,35 @@ project "FidelityFX-SDK"
 	-- TODO: for other platforms when supported
 	filter "system:windows"
 		prebuildcommands {
+			"rmdir /s /q \"" .. SHADER_BASE_OUTPUT_DIR .. "\"",
+			"mkdir \"" .. SHADER_BASE_OUTPUT_DIR .. "\"",
+
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersBLUR.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "blur"),
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersCACAO.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "cacao"),
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersCas.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "cas"),
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersClassifier.txt",
-							FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "classifier"),
+							FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersDenoiser.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "denoiser"),
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersDOF.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "dof"),
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersFSR1.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "fsr1"),
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersFSR2.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "fsr2"),
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersLENS.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "lens"),
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersLPM.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "lpm"),
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersParallelSort.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "parallel_sort"),
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersSPD.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "spd"),
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersSSSR.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "sssr"),
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR),
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersVRS.txt",
-							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR .. "vrs")
+							 FIDELITYFX_SDK_SC, SHADER_BASE_OUTPUT_DIR, SHADER_BASE_INPUT_DIR)
 		}

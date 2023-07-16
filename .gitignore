@@ -367,3 +367,6 @@ media-cache/
 **.vcxproj
 **.vcxproj.user
 **.vcxproj.filters
+
+# exclude generated shaders
+**/blob_accessors/shaders/**
