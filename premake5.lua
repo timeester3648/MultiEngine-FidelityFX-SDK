@@ -14,10 +14,14 @@ project "FidelityFX-SDK"
 	inlining "Auto"
 
 	files {
+		"./sdk/src/*.h",
 		"./sdk/src/*.cpp",
+		"./sdk/src/shared/**.h",
 		"./sdk/src/shared/**.cpp",
+		"./sdk/src/components/**.h",
 		"./sdk/src/components/**.cpp",
-		"./sdk/src/backends/shared/**.cpp",
+		"./sdk/src/backends/shared/**.h",
+		"./sdk/src/backends/shared/**.cpp"
 	}
 
 	defines {
