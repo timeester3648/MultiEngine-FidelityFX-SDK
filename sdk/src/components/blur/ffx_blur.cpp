@@ -302,7 +302,7 @@ static FfxErrorCode createPipelineStateObjects(FfxBlurContext_Private* context)
 
                     wcscat_s(pipelineDescription.name, kernelPermStr);
 
-                    wchar_t kernel[10]; // 3x3 through 21x21
+                    wchar_t kernel[10]{};  // 3x3 through 21x21
                     getKernelSizeString(kernel, (FfxBlurKernelSize)curKernelSize);
 
                     wcscat_s(pipelineDescription.name, kernel);
