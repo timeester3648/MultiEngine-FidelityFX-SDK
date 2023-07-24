@@ -30,9 +30,9 @@
 #define FFX_CPU
 #include <FidelityFX/gpu/ffx_core.h>
 
-static float    fs2S;
-static float    hdr10S;
-static uint32_t ctl[24 * 4];
+thread_local float    fs2S;
+thread_local float    hdr10S;
+thread_local uint32_t ctl[24 * 4];
 
 static void LpmSetupOut(uint32_t i, uint32_t* v)
 {
