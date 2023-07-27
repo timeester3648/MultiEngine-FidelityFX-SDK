@@ -39,7 +39,6 @@ project "FidelityFX-SDK"
 	-- TODO: for other platforms when supported
 	filter "system:windows"
 		prebuildcommands {
-			"rmdir /s /q \"" .. SHADER_BASE_OUTPUT_DIR .. "\"",
 			"mkdir \"" .. SHADER_BASE_OUTPUT_DIR .. "\"",
 
 			parse_cmake_file("./sdk/src/backends/vk/CMakeShadersBLUR.txt",
