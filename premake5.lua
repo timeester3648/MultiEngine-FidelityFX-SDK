@@ -3,7 +3,7 @@ include "premake_shader_util.lua"
 
 local SHADER_BASE_INPUT_DIR = "%{wks.location}/dependencies/FidelityFX-SDK/sdk/src/backends/vk/"
 local FIDELITYFX_SDK_SC = "%{wks.location}/dependencies/FidelityFX-SDK/sdk/tools/binary_store/FidelityFX_SC.exe"
-local SHADER_BASE_OUTPUT_DIR = "%{wks.location}/dependencies/FidelityFX-SDK/sdk/src/backends/shared/blob_accessors/shaders"
+local SHADER_BASE_OUTPUT_DIR = "%{wks.location}/dependencies/FidelityFX-SDK/sdk/src/backends/shared/blob_accessors/shaders/%{cfg.buildcfg}"
 
 project "FidelityFX-SDK"
 	kind "StaticLib"
