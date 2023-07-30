@@ -20,7 +20,7 @@ project "FidelityFX-SDK"
 		"./sdk/src/shared/**.cpp",
 		"./sdk/src/components/**.h",
 		"./sdk/src/components/**.cpp",
-		"./sdk/src/backends/shared/**.h",
+		"./sdk/src/backends/shared/*.h",
 		"./sdk/src/backends/shared/**.cpp"
 	}
 
