@@ -2,7 +2,7 @@ void main(MultiBuild::Workspace& workspace) {
 	auto project = workspace.create_project(".");
 	auto properties = project.properties();
 
-	properties.name("FidelityFX-SDK");
+	project.name("FidelityFX-SDK");
 	properties.binary_object_kind(MultiBuild::BinaryObjectKind::eNone);
 	project.license("./LICENSE.txt");
 
@@ -23,8 +23,8 @@ void main(MultiBuild::Workspace& workspace) {
 		"./sdk/src/backends/shared/**.cpp"
 	});
 
-	project.defines("FFX_ALL");
-	project.include_directories({
+	properties.defines("FFX_ALL");
+	properties.include_directories({
 		"./sdk/src/shared",
 		"./sdk/src/components",
 	});
@@ -32,11 +32,11 @@ void main(MultiBuild::Workspace& workspace) {
 	{
 		MultiBuild::ScopedFilter _(workspace, "config.platform:Windows");
 
-		const MultiEngine::String shader_base_input_dir = "./sdk/src/backends/vk/"
-		const MultiEngine::String fidelityfx_sdk_sc = "./sdk/tools/binary_store/FidelityFX_SC.exe"
-		const MultiEngine::String shader_base_output_dir = "./sdk/src/backends/shared/blob_accessors/shaders/{:config.build_config}"
+		const MultiEngine::String shader_base_input_dir = "./sdk/src/backends/vk/";
+		const MultiEngine::String fidelityfx_sdk_sc = "./sdk/tools/binary_store/FidelityFX_SC.exe";
+		const MultiEngine::String shader_base_output_dir = "./sdk/src/backends/shared/blob_accessors/shaders/{:config.build_config}";
 
-		project.pre_build_commands(MultiEngine::format("{create_directory} \"{}\"", shader_base_output_dir));
+		properties.pre_build_commands(MultiEngine::format("{{create_directory}} \"{}\"", shader_base_output_dir));
 		
 		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
 															 "./sdk/src/backends/vk/CMakeShadersBLUR.txt",
