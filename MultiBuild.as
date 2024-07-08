@@ -30,13 +30,13 @@ void main(MultiBuild::Workspace& workspace) {
 	});
 
 	{
-		MultiBuild::ScopedFilter _(workspace, "config.platform:Windows");
+		MultiBuild::ScopedFilter _(project, "config.platform:Windows");
 
 		const MultiEngine::String shader_base_input_dir = "./sdk/src/backends/vk/";
 		const MultiEngine::String fidelityfx_sdk_sc = "./sdk/tools/binary_store/FidelityFX_SC.exe";
 		const MultiEngine::String shader_base_output_dir = "./sdk/src/backends/shared/blob_accessors/shaders/{:config.build_config}";
 
-		properties.pre_build_commands(MultiEngine::format("{{create_directory}} \"{}\"", shader_base_output_dir));
+		properties.pre_build_commands(MultiEngine::format("{{:create_directory:}} \"{}\"", shader_base_output_dir));
 		
 		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
 															 "./sdk/src/backends/vk/CMakeShadersBLUR.txt",
