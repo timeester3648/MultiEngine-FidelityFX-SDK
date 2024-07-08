@@ -3,7 +3,7 @@ void main(MultiBuild::Workspace& workspace) {
 	auto properties = project.properties();
 
 	project.name("FidelityFX-SDK");
-	properties.binary_object_kind(MultiBuild::BinaryObjectKind::eNone);
+	properties.binary_object_kind(MultiBuild::BinaryObjectKind::eStaticLib);
 	project.license("./LICENSE.txt");
 
 	project.include_own_required_includes(true);
@@ -36,7 +36,7 @@ void main(MultiBuild::Workspace& workspace) {
 		const MultiEngine::String fidelityfx_sdk_sc = "./sdk/tools/binary_store/FidelityFX_SC.exe";
 		const MultiEngine::String shader_base_output_dir = "./sdk/src/backends/shared/blob_accessors/shaders/{:config.build_config}";
 
-		properties.pre_build_commands(MultiEngine::format("{{:create_directory:}} \"{}\"", shader_base_output_dir));
+		properties.pre_build_commands(MultiEngine::format("{{:create_directory:}} \"{{:project.relative_root}}/{}\"", shader_base_output_dir));
 		
 		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
 															 "./sdk/src/backends/vk/CMakeShadersBLUR.txt",
@@ -80,6 +80,5 @@ void main(MultiBuild::Workspace& workspace) {
 		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
 															 "./sdk/src/backends/vk/CMakeShadersVRS.txt",
 															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-
 	}
 }
