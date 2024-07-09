@@ -36,7 +36,7 @@ void main(MultiBuild::Workspace& workspace) {
 		const MultiEngine::String fidelityfx_sdk_sc = "{:project.root}/sdk/tools/binary_store/FidelityFX_SC.exe";
 		const MultiEngine::String shader_base_output_dir = "{:project.root}/sdk/src/backends/shared/blob_accessors/shaders/{:config.build_config}";
 
-		properties.pre_build_commands("{{:create_directory:}} \"{:project.relative_root}/sdk/src/backends/shared/blob_accessors/shaders/{:config.build_config}\"");
+		properties.pre_build_commands(MultiEngine::format("{{:create_directory:}} \"{}\"", shader_base_output_dir));
 		
 		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
 															 "./sdk/src/backends/vk/CMakeShadersBLUR.txt",
