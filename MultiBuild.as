@@ -22,8 +22,12 @@ void main(MultiBuild::Workspace& workspace) {
 		"./sdk/src/components/**.h",
 		"./sdk/src/components/**.cpp",
 		"./sdk/src/backends/shared/*.h",
-		"./sdk/src/backends/shared/**.cpp"
+		"./sdk/src/backends/shared/**.cpp",
+
+		"./sdk/src/backends/vk/**.cpp"
 	});
+
+	properties.project_includes("Vulkan-Headers");
 
 	properties.defines({ 
 		"FFX_ALL",
@@ -36,6 +40,8 @@ void main(MultiBuild::Workspace& workspace) {
 
 		shader_base_output_dir
 	});
+
+	properties.library_links("{env:VULKAN_SDK:}/Lib/vulkan-1");
 
 	{
 		MultiBuild::ScopedFilter _(project, "config.platform:Windows");
@@ -56,4 +62,9 @@ void main(MultiBuild::Workspace& workspace) {
 		MultiBuild::ScopedFilter _(project, "project.compiler:VisualCpp");
 		properties.disable_warnings({ "4244", "4267" });
 	}
+
+	// {
+	// 	MultiBuild::ScopedFilter _(project, "config.platform:Windows");
+	// 	properties.files("./sdk/src/backends/dx12/**.cpp");
+	// }
 }

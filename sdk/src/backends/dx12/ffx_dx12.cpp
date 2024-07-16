@@ -33,7 +33,7 @@
 #include <tuple> // std::ignore
 
 // Disable this to remove the dll load of PIX and PIX tracing
-#define ENABLE_PIX_CAPTURES 1
+// #define ENABLE_PIX_CAPTURES 1
 
 #if defined(ENABLE_PIX_CAPTURES)
 // PIX instrumentation is only enabled if one of the preprocessor symbols USE_PIX, DBG, _DEBUG, PROFILE, or PROFILE_BUILD is defined.

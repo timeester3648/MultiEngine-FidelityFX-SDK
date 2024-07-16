@@ -74,7 +74,7 @@ static FfxConstantBufferAllocator s_fpConstantAllocator = nullptr;
 // Redefine offsets for compilation purposes
 #define BINDING_SHIFT(name, shift)                       \
 constexpr uint32_t name##_BINDING_SHIFT     = shift; \
-constexpr wchar_t* name##_BINDING_SHIFT_STR = L#shift;
+constexpr const wchar_t* name##_BINDING_SHIFT_STR = L## #shift;
 
 // put it there for now
 BINDING_SHIFT(TEXTURE, 0);
