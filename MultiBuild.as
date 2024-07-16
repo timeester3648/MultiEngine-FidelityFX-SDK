@@ -5,7 +5,7 @@ void main(MultiBuild::Workspace& workspace) {
 	auto properties = project.properties();
 
 	project.name("FidelityFX-SDK");
-	properties.binary_object_kind(MultiBuild::BinaryObjectKind::eStaticLib);
+	properties.binary_object_kind(MultiBuild::BinaryObjectKind::eSharedLib);
 	project.license("./LICENSE.txt");
 
 	project.include_own_required_includes(true);
@@ -25,7 +25,11 @@ void main(MultiBuild::Workspace& workspace) {
 		"./sdk/src/backends/shared/**.cpp"
 	});
 
-	properties.defines("FFX_ALL");
+	properties.defines({ 
+		"FFX_ALL",
+		"FFX_BUILD_AS_DLL"
+	});
+
 	properties.include_directories({
 		"./sdk/src/shared",
 		"./sdk/src/components",
@@ -42,46 +46,14 @@ void main(MultiBuild::Workspace& workspace) {
 		properties.pre_build_commands(MultiEngine::format("{{:create_directory:}} \"{}\"", shader_base_output_dir));
 		
 		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersBLUR.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersCACAO.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersCas.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersClassifier.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersDenoiser.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersDOF.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersFSR1.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersFSR2.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersLENS.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersLPM.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersParallelSort.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersSPD.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersSSSR.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShadersVRS.txt",
-															 fidelityfx_sdk_sc, shader_base_output_dir, shader_base_input_dir);
+															 "./sdk/src/backends/vk/CMakeShaders*.txt",
+															 "{:project.root}/sdk/tools/binary_store/FidelityFX_SC.exe", 
+															 shader_base_output_dir,
+															 "{:project.root}/sdk/src/backends/vk/");
+	}
+
+	{
+		MultiBuild::ScopedFilter _(project, "project.compiler:VisualCpp");
+		properties.disable_warnings({ "4244", "4267" });
 	}
 }
