@@ -11,18 +11,24 @@ void main(MultiBuild::Workspace& workspace) {
 	project.include_own_required_includes(true);
 	project.add_required_project_include({
 		"./sdk/include",
-		"./sdk/src/backends/shared"
+		"./sdk/src/backends/shared",
+
+		"./ffx-api/include"
 	});
 
 	properties.files({
 		"./sdk/src/*.h",
 		"./sdk/src/*.cpp",
+		"./sdk/include/**.h",
 		"./sdk/src/shared/**.h",
 		"./sdk/src/shared/**.cpp",
 		"./sdk/src/components/**.h",
 		"./sdk/src/components/**.cpp",
 		"./sdk/src/backends/shared/*.h",
 		"./sdk/src/backends/shared/**.cpp",
+
+		"./ffx-api/**.h",
+		"./ffx-api/**.hpp",
 
 		"./sdk/src/backends/vk/**.cpp"
 	});
@@ -42,6 +48,14 @@ void main(MultiBuild::Workspace& workspace) {
 	});
 
 	properties.library_links("{env:VULKAN_SDK:}/Lib/vulkan-1");
+
+	{
+		MultiBuild::ScopedFilter _(project, "config.platform:Windows");
+		properties.pre_build_commands({
+			"{:copy_file:} \"{:project.root}/PrebuiltSignedDLL/amd_fidelityfx_vk.lib\" \"{:project.target_dir}/amd_fidelityfx_vk.lib\"",
+			"{:copy_file:} \"{:project.root}/PrebuiltSignedDLL/amd_fidelityfx_vk.dll\" \"{:project.target_dir}/amd_fidelityfx_vk.dll\""
+		});
+	}
 
 	{
 		MultiBuild::ScopedFilter _(project, "config.platform:Windows");
@@ -66,5 +80,10 @@ void main(MultiBuild::Workspace& workspace) {
 	// {
 	// 	MultiBuild::ScopedFilter _(project, "config.platform:Windows");
 	// 	properties.files("./sdk/src/backends/dx12/**.cpp");
+
+	// 	properties.pre_build_commands({
+	// 		"{:copy_file:} \"{:project.root}/PrebuiltSignedDLL/amd_fidelityfx_dx12.lib\" \"{:project.target_dir}/amd_fidelityfx_dx12.lib\"",
+	// 		"{:copy_file:} \"{:project.root}/PrebuiltSignedDLL/amd_fidelityfx_dx12.dll\" \"{:project.target_dir}/amd_fidelityfx_dx12.dll\""
+	// 	});
 	// }
 }
