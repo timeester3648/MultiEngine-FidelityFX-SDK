@@ -29,6 +29,7 @@ void main(MultiBuild::Workspace& workspace) {
 
 		"./ffx-api/**.h",
 		"./ffx-api/**.hpp",
+		"./ffx-api/**.cpp",
 
 		"./sdk/src/backends/vk/**.cpp"
 	});
@@ -37,7 +38,8 @@ void main(MultiBuild::Workspace& workspace) {
 
 	properties.defines({ 
 		"FFX_ALL",
-		"FFX_BUILD_AS_DLL"
+		"FFX_BUILD_AS_DLL",
+		"FFX_BACKEND_VK"
 	});
 
 	properties.include_directories({

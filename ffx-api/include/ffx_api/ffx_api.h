@@ -26,7 +26,7 @@
 extern "C" {
 #endif  // #if defined(__cplusplus)
 
-#define FFX_API_ENTRY __declspec(dllexport)
+#define FFX_API_ENTRY extern "C" __declspec(dllexport)
 #include <stdint.h>
 
 enum FfxApiReturnCodes
