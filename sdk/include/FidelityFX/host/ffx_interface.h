@@ -472,7 +472,7 @@ typedef enum FfxUiCompositionFlags
 
 typedef FfxErrorCode(*FfxPresentCallbackFunc)(const FfxPresentCallbackDescription* params, void*);
 typedef FfxErrorCode(*FfxFrameGenerationDispatchFunc)(const FfxFrameGenerationDispatchDescription* params, void*);
-typedef FfxErrorCode(*FfxWaitCallbackFunc)(wchar_t* fenceName, uint64_t fenceValueToWaitFor);
+typedef FfxErrorCode(*FfxWaitCallbackFunc)(const wchar_t* fenceName, uint64_t fenceValueToWaitFor);
 
 /// A structure representing the configuration options to pass to FfxFrameInterpolation.
 ///
