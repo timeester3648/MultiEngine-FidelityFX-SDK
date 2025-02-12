@@ -165,6 +165,8 @@ const float FFX_EPSILON = 1e-06f;
 #error When using custom mutex you have to provide all following operations too: FFX_MUTEX_LOCK, FFX_MUTEX_LOCK_SHARED, FFX_MUTEX_UNLOCK, FFX_MUTEX_UNLOCK_SHARED!
 #endif // #if defined(FFX_MUTEX_IMPL_SHARED)
 
+#include <bit>
+
 /// Computes the number of bits set to 1 in a integer.
 ///
 /// @param [in] val Integer mask.
