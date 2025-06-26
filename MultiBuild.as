@@ -1,5 +1,5 @@
 void main(MultiBuild::Workspace& workspace) {
-	const MultiEngine::String shader_base_output_dir = "{:project.root}/sdk/src/backends/shared/blob_accessors/shaders/{:config.build_config}";
+	const MultiEngine::String shader_base_output_dir = "{:project.root}/sdk/src/backends/shared/blob_accessors/shaders";
 
 	auto project = workspace.create_project(".");
 	auto properties = project.properties();
@@ -67,11 +67,12 @@ void main(MultiBuild::Workspace& workspace) {
 
 		properties.pre_build_commands(MultiEngine::format("{{:create_directory:}} \"{}\"", shader_base_output_dir));
 		
-		MultiBuild::FidelityFxSdk::shader_pre_build_commands(project,
-															 "./sdk/src/backends/vk/CMakeShaders*.txt",
-															 "{:project.root}/sdk/tools/binary_store/FidelityFX_SC.exe", 
-															 shader_base_output_dir,
-															 "{:project.root}/sdk/src/backends/vk/");
+		MultiBuild::FidelityFxSdk::shaders_compile(project,
+												   "./sdk/src/backends/vk/CMakeShaders*.txt",
+												   "{:project.root}/sdk/tools/binary_store/FidelityFX_SC.exe", 
+												   shader_base_output_dir,
+												   "{:project.root}/sdk/src/backends/vk/",
+												   ".");
 	}
 
 	{
