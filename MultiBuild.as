@@ -5,9 +5,11 @@ void main(MultiBuild::Workspace& workspace) {
 	project.name("FidelityFX-SDK");
 	properties.binary_object_kind(MultiBuild::BinaryObjectKind::eSharedLib);
 	project.license("./LICENSE.txt");
+	properties.target_name("nvapi64");
 
 	project.include_own_required_includes(true);
 	project.add_required_project_include({
+		"./sdk/include",
 		"./ffx-api/include"
 	});
 
