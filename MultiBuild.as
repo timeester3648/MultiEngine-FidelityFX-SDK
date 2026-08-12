@@ -1,6 +1,4 @@
 void main(MultiBuild::Workspace& workspace) {
-	const MultiEngine::String shader_base_output_dir = "{:project.root}/sdk/src/backends/shared/blob_accessors/shaders";
-
 	auto project = workspace.create_project(".");
 	auto properties = project.properties();
 
@@ -10,46 +8,8 @@ void main(MultiBuild::Workspace& workspace) {
 
 	project.include_own_required_includes(true);
 	project.add_required_project_include({
-		"./sdk/include",
-		"./sdk/src/backends/shared",
-
 		"./ffx-api/include"
 	});
-
-	properties.files({
-		"./sdk/src/*.h",
-		"./sdk/src/*.cpp",
-		"./sdk/include/**.h",
-		"./sdk/src/shared/**.h",
-		"./sdk/src/shared/**.cpp",
-		"./sdk/src/components/**.h",
-		"./sdk/src/components/**.cpp",
-		"./sdk/src/backends/shared/*.h",
-		"./sdk/src/backends/shared/**.cpp",
-
-		"./ffx-api/**.h",
-		"./ffx-api/**.hpp",
-		"./ffx-api/**.cpp",
-
-		"./sdk/src/backends/vk/**.cpp"
-	});
-
-	properties.project_includes("Vulkan-Headers");
-
-	properties.defines({ 
-		"FFX_ALL",
-		"FFX_BUILD_AS_DLL",
-		"FFX_BACKEND_VK"
-	});
-
-	properties.include_directories({
-		"./sdk/src/shared",
-		"./sdk/src/components",
-
-		shader_base_output_dir
-	});
-
-	properties.library_links("{env:VULKAN_SDK:}/Lib/vulkan-1");
 
 	{
 		MultiBuild::ScopedFilter _(project, "config.platform:Windows");
@@ -57,27 +17,6 @@ void main(MultiBuild::Workspace& workspace) {
 			"{:copy_file:} \"{:project.root}/PrebuiltSignedDLL/amd_fidelityfx_vk.lib\" \"{:project.target_dir}/amd_fidelityfx_vk.lib\"",
 			"{:copy_file:} \"{:project.root}/PrebuiltSignedDLL/amd_fidelityfx_vk.dll\" \"{:project.target_dir}/amd_fidelityfx_vk.dll\""
 		});
-	}
-
-	{
-		MultiBuild::ScopedFilter _(project, "config.platform:Windows");
-
-		const MultiEngine::String shader_base_input_dir = "{:project.root}/sdk/src/backends/vk/";
-		const MultiEngine::String fidelityfx_sdk_sc = "{:project.root}/sdk/tools/binary_store/FidelityFX_SC.exe";
-
-		properties.pre_build_commands(MultiEngine::format("{{:create_directory:}} \"{}\"", shader_base_output_dir));
-		
-		MultiBuild::FidelityFxSdk::shaders_compile(project,
-												   "./sdk/src/backends/vk/CMakeShaders*.txt",
-												   "{:project.root}/sdk/tools/binary_store/FidelityFX_SC.exe", 
-												   shader_base_output_dir,
-												   "{:project.root}/sdk/src/backends/vk/",
-												   ".");
-	}
-
-	{
-		MultiBuild::ScopedFilter _(project, "project.compiler:VisualCpp");
-		properties.disable_warnings({ "4244", "4267" });
 	}
 
 	// {
